@@ -31,7 +31,7 @@ function render_console() {
     text("Refle A: " + reflectors['A'], 25, 300); // type out encryption into Console:
     noFill();
     stroke(50);
-    rect(width / 2, 240, width * 0.95, 150);
+    rect(width / 2, 250, width * 0.95, 150);
 }
 
 // Function to create user input text box
@@ -48,12 +48,36 @@ function mouseWheel(event) {
         rotors[order[1]][1] = scroll_compute(rotors[order[1]][1], event.delta, 1);
     } else if ((mouseX > dial3_x - 20) && (mouseX < dial3_x + 20) && (mouseY > dial_y - 40) && (mouseY < dial_y + 40)) {
         rotors[order[2]][1] = scroll_compute(rotors[order[2]][1], event.delta, 2);
+        // Reflector Type
     } else if ((mouseX > 100 - 20) && (mouseX < 100 + 20) && (mouseY > dial_y - 20) && (mouseY < dial_y + 20)) {
-        refl_n += event.delta/100;
+        print('yey');
+        refl_n += event.delta / 100;
         if (refl_n > 4) {
             refl_n = 0;
-        } else if( refl_n < 0) {
+        } else if (refl_n < 0) {
             refl_n = 4;
+        }
+        // Left Rotor Type
+    } else if ((mouseX > dial1_x - 15) && (mouseX < dial1_x + 15) && (mouseY > dial_y + 45) && (mouseY < dial_y + 75)) {
+        order[0] += event.delta / 100;
+        if (order[0] > 9) {
+            order[0] = 0;
+        } else if (order[0] < 0) {
+            order[0] = 9;
+        } // Middle Rotor
+    } else if ((mouseX > dial2_x - 15) && (mouseX < dial2_x + 15) && (mouseY > dial_y + 45) && (mouseY < dial_y + 75)) {
+        order[1] += event.delta / 100;
+        if (order[1] > 9) {
+            order[1] = 0;
+        } else if (order[1] < 0) {
+            order[1] = 9;
+        } // Right Rotor Type
+    } else if ((mouseX > dial3_x - 15) && (mouseX < dial3_x + 15) && (mouseY > dial_y + 45) && (mouseY < dial_y + 75)) {
+        order[2] += event.delta / 100;
+        if (order[2] > 9) {
+            order[2] = 0;
+        } else if (order[2] < 0) {
+            order[2] = 9;
         }
     }
 
@@ -65,11 +89,11 @@ function scroll_compute(index, increment, r_n) {
         increment = increment / 100;
     }
     index += increment;
-    if (increment > 0){
+    if (increment > 0) {
         rotors[order[r_n]][0] = rotors[order[r_n]][0].charAt(25) + rotors[order[r_n]][0];
         rotors[order[r_n]][0] = rotors[order[r_n]][0].slice(0, -1);
-    } else if (increment < 0){
-        rotors[order[r_n]][0] =  rotors[order[r_n]][0] + rotors[order[r_n]][0].charAt(0);
+    } else if (increment < 0) {
+        rotors[order[r_n]][0] = rotors[order[r_n]][0] + rotors[order[r_n]][0].charAt(0);
         rotors[order[r_n]][0] = rotors[order[r_n]][0].slice(1);
     }
     // increments can be large due to length of input, how to convert them into the 0-25 rotation index.
@@ -87,7 +111,7 @@ function render_dials() {
     dial1_x = width / 3;
     dial2_x = width / 2;
     dial3_x = (2 * width / 3);
-    dial_y = height / 8;
+    dial_y = height / 9;
     textSize(32);
     fill(50);
     text('Enigma Machine', 10, 30);
@@ -104,9 +128,13 @@ function render_dials() {
     text(alph[rotors[order[2]][1]], dial3_x - 10, dial_y + 10);
     //Rotor Order
     textSize(20);
-    text(order[0], dial1_x - 5, dial_y + 60);
-    text(order[1], dial2_x - 5, dial_y + 60);
-    text(order[2], dial3_x - 5, dial_y + 60);
+    ellipseMode(CENTER)
+    ellipse(dial1_x, dial_y + 60, 30, 30);
+    text(rotors[order[0]][5], dial1_x - 10, dial_y + 68);
+    ellipse(dial2_x, dial_y + 60, 30, 30);
+    text(rotors[order[1]][5], dial2_x - 10, dial_y + 68);
+    ellipse(dial3_x, dial_y + 60, 30, 30);
+    text(rotors[order[2]][5], dial3_x - 10, dial_y + 68);
     //Reflector Type Dial
     stroke(50);
     strokeWeight(2);

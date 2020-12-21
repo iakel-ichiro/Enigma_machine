@@ -25,19 +25,19 @@ reflectors = {
 refl_n = 0;
 // rotor dictionary contains three rotors:
 rotors = { //[scramble, rotation index, turnover start, end, notched?]
-    "I": ["EKMFLGDQVZNTOWYHXUSPAIBRCJ", 0, 'Y', 'Q', false],
-    "II": ["AJDKSIRUXBLHWTMCQGZNPYFVOE", 0, 'M', 'E', false],
-    "III": ["BDFHJLCPRTXVZNYEIWGAKMUSQO", 0, 'D', 'V', false],
-    "IV": ["ESOVPZJAYQUIRHXLNFTGKDCMWB", 0, 'R', 'J', false],
-    "V": ["VZBRGITYUPSDNHLXAWMJQOFECK", 0, 'H', 'Z', false],
-    "VI": ["JPGVOUMFYQBENHZRDKASXLICTW", 0, 'HU', 'ZM', false],
-    "VII": ["NZJHGRCXMYSWBOUFAIVLPEKQDT", 0, 'HU', 'ZM', false],
-    "VIII": ["FKQHTLXOCBJSPDZRAMEWNIUYGV", 0, 'HU', 'ZM', false],
-    "Beta": ["LEYJVCNIXWPBQMDRTAKZGFUHOS", 0, '', '', false],
-    "Gama": ["FSOKANUERHMBTIYCWLQPZXVGJD", 0, '', '', false]
+    "0": ["EKMFLGDQVZNTOWYHXUSPAIBRCJ", 0, 'Y', 'Q', false, 'I'],
+    "1": ["AJDKSIRUXBLHWTMCQGZNPYFVOE", 0, 'M', 'E', false, 'II'],
+    "2": ["BDFHJLCPRTXVZNYEIWGAKMUSQO", 0, 'D', 'V', false, 'III'],
+    "3": ["ESOVPZJAYQUIRHXLNFTGKDCMWB", 0, 'R', 'J', false, 'IV'],
+    "4": ["VZBRGITYUPSDNHLXAWMJQOFECK", 0, 'H', 'Z', false, 'V'],
+    "5": ["JPGVOUMFYQBENHZRDKASXLICTW", 0, 'HU', 'ZM', false, 'VI'],
+    "6": ["NZJHGRCXMYSWBOUFAIVLPEKQDT", 0, 'HU', 'ZM', false, 'VII'],
+    "7": ["FKQHTLXOCBJSPDZRAMEWNIUYGV", 0, 'HU', 'ZM', false, 'VIII'],
+    "8": ["LEYJVCNIXWPBQMDRTAKZGFUHOS", 0, '', '', false, 'Beta'],
+    "9": ["FSOKANUERHMBTIYCWLQPZXVGJD", 0, '', '', false, 'Gamma']
 }
 //       L,     M,    R
-order = ["I", 'II', 'III']; // Chosen Rotors and order in machine, left to right
+order = [0, 1, 2]; // Chosen Rotors and order in machine, left to right
 // Encryption function
 function rotor_encryptor(c_in, permutation) {
     print(permutation);
