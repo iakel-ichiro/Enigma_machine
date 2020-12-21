@@ -1,5 +1,5 @@
 var alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // Alphabet for initial encryption reference
-var i_pos = [0, 0, 0]; // boolean to make sure only updates it once during a blank input
+var prev_len = 0;
 // rotor dictionary contains three rotors:
 rotors = { // Three Rotors: Fast, med, slow. [scramble, rotation index, turnover start, end, notched?]
     "1": ["EKMFLGDQVZNTOWYHXUSPAIBRCJ", 0, 'Q', 'R', false], //fast
@@ -35,21 +35,14 @@ function encrypt() {
 }
 
 function rotate_dial() {
-    let l = input.value().length;
-    for (var i = 0; i <= l; i++) {
-        rotors[order[2]][1] = scroll_compute(i_pos[2], i);
+    let l = input.value().length-prev_len;
+    rotors[order[2]][1] = scroll_compute(rotors[order[2]][1], l);
         // if (alph[rotors[order[2]][1]] == rotors[order[2]][3]) { // if rotor index = turnover end
         //     if (rotors[order[2]][4]) { // check to see if it has been notched by turnover start
         //         rotors[order[1]][1] = scroll_compute(rotors[order[1]][1], 1);
         //
         //     }
         // }
-    }
 
-}
-
-function update_i_pos() {
-    i_pos[2] = rotors[order[2]][1];
-    i_pos[1] = rotors[order[1]][1];
-    i_pos[0] = rotors[order[0]][1];
+    prev_len = input.value().length;
 }

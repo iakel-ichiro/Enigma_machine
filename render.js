@@ -14,15 +14,12 @@ function render_console() {
     textStyle(NORMAL);
     let x = "";
     rotate_dial()
-    if (input.value() == "") { // only perform encryption if text is entered
-        update_i_pos();
-    } else {
+    if (input.value() !== "") { // only perform encryption if text is entered
         x = encrypt();
-
     }
 
     text("Console: " + x, 25, 190); // type out encryption into Console:
-    text("Tests: " +  input.value().length + "ipos" + i_pos[2], 25, 220); // type out encryption into Console:
+    text("Tests: " +  input.value().length, 25, 220); // type out encryption into Console:
     noFill();
     stroke(50);
     rect(width / 2, 220, width * 0.95, 100);
@@ -55,6 +52,7 @@ function scroll_compute(index, increment) {
         increment = increment / 100;
     }
     index += increment;
+    // increments can be large due to length of input, how to convert them into the 0-25 rotation index.
     if (index > 25) {
         index = 0;
     }
