@@ -2,23 +2,23 @@ var alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // Alphabet for initial encryption refe
 var prev_len = 0;
 // Plugboard Dictionary:
 plugboard = {
-	"A": 'P',
-    "B": 'Q',
-    "C": 'R',
-    "D": 'S',
-    "E": 'T',
-    "F": 'U',
-    "G": 'V',
-    "H": 'Y',
-    "I": 'X',
-    "J": 'Y',
-    "K": 'Z',
+    "A": 'M',
+    "F": 'I',
+    "N": 'V',
+    "P": 'S',
+    "T": 'U',
+    "W": 'Z',
+    // "G": 'V',
+    // "H": 'Y',
+    // "I": 'X',
+    // "J": 'Y',
+    // "K": 'Z',
 }
 // Reflector dictionary
 reflectors = {
-	"A":     "EJMZALYXVBWFCRQUONTSPIKHGD",
-    "B":     "YRUHQSLDPXNGOKMIEBFZCWVJAT",
-    "C":     "FVPJIAOYEDRZXWGCTKUQSBNMHL",
+    "A": "EJMZALYXVBWFCRQUONTSPIKHGD",
+    "B": "YRUHQSLDPXNGOKMIEBFZCWVJAT",
+    "C": "FVPJIAOYEDRZXWGCTKUQSBNMHL",
     "B*": "ENKQAUYWJICOPBLMDXZVFTHRGS",
     "C*": "RDOBJNTKVEHMLFCWZAXGYIPSUQ"
 }
@@ -104,7 +104,15 @@ function plug_switch(char_in) {
     for (let [key, value] of Object.entries(plugboard)) {
         if (char_in.toUpperCase() == key) {
             char_out = value;
+        } else if (char_in.toUpperCase() == value) {
+            char_out = key;
         }
     }
     return char_out;
+}
+
+function ring_pos(x, y, z) {
+    scroll_compute(rotors[order[0]][1], x, 0);
+    scroll_compute(rotors[order[1]][1], y, 1);
+    scroll_compute(rotors[order[2]][1], z, 2);
 }
