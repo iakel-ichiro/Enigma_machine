@@ -1,38 +1,41 @@
+// Dial box dimensions and positions
 var dial1_x;
 var dial2_x;
 var dial3_x;
 
 function render() {
-
     render_dials();
     render_console();
 }
 
+// Function calls the encryption functiona nd prints results
 function render_console() {
     textSize(16);
     textStyle(NORMAL);
-    let test = "";
-    if (input.value() !== "") {
-        test = encrypt();
+    let x = "";
+    if (input.value() !== "") { // only perform encryption if text is entered
+        x = encrypt();
     }
-    text("Console: " + test, 25, 190);
+    text("Console: " + x, 25, 190); // type out encryption into Console:
     noFill();
     stroke(50);
     rect(width / 2, 220, width * 0.95, 100);
 }
 
+// Function to create user input text box
 function user_input() {
     input = createInput();
     input.position(20, 550);
 }
 
+// Function to interact with dial indexing
 function mouseWheel(event) {
     if ((mouseX > dial1_x - 20) && (mouseX < dial1_x + 20) && (mouseY > dial_y - 40) && (mouseY < dial_y + 40)) {
-        fast_rotor[1] = scroll_compute(fast_rotor[1]);
+        rotors[order[0]][1] = scroll_compute(rotors[order[0]][1]);
     } else if ((mouseX > dial2_x - 20) && (mouseX < dial2_x + 20) && (mouseY > dial_y - 40) && (mouseY < dial_y + 40)) {
-        medium_rotor[1] = scroll_compute(medium_rotor[1]);
+        rotors[order[1]][1] = scroll_compute(rotors[order[1]][1]);
     } else if ((mouseX > dial3_x - 20) && (mouseX < dial3_x + 20) && (mouseY > dial_y - 40) && (mouseY < dial_y + 40)) {
-        slow_rotor[1] = scroll_compute(slow_rotor[1]);
+        rotors[order[2]][1] = scroll_compute(rotors[order[2]][1]);
     }
 }
 
@@ -49,6 +52,7 @@ function scroll_compute(index) {
     return index;
 }
 
+// Render Dias and print rotor rotation index number and position in bold below
 function render_dials() {
     dial1_x = width / 3;
     dial2_x = width / 2;
@@ -62,13 +66,14 @@ function render_dials() {
     noFill();
     rectMode(CENTER)
     rect(dial1_x, dial_y, 40, 80);
-    text(fast_rotor[1]+1, dial1_x - 17.5, dial_y + 10);
+    text(rotors[order[0]][1] + 1, dial1_x - 17.5, dial_y + 10);
     rect(dial2_x, dial_y, 40, 75);
-    text(medium_rotor[1]+1, dial2_x - 17.5, dial_y + 10);
+    text(rotors[order[1]][1] + 1, dial2_x - 17.5, dial_y + 10);
     rect(dial3_x, dial_y, 40, 75);
-    text(slow_rotor[1]+1, dial3_x - 17.5, dial_y + 10);
+    text(rotors[order[2]][1] + 1, dial3_x - 17.5, dial_y + 10);
     textSize(20);
-    text(rotor_order[0], dial3_x - 5, dial_y + 60);
-    text(rotor_order[1], dial2_x - 5, dial_y + 60);
-    text(rotor_order[2], dial1_x - 5, dial_y + 60);
+    text(order[0], dial1_x - 5, dial_y + 60);
+    text(order[1], dial2_x - 5, dial_y + 60);
+    text(order[2], dial3_x - 5, dial_y + 60);
+
 }
