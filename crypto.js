@@ -4,7 +4,7 @@ var prev_len = 0;
 rotors = { // Three Rotors: Fast, med, slow. [scramble, rotation index, turnover start, end, notched?]
     "1": ["EKMFLGDQVZNTOWYHXUSPAIBRCJ", 0, 'Q', 'R', false],
     "2": ["AJDKSIRUXBLHWTMCQGZNPYFVOE", 0, 'E', 'F', false],
-    "3": ["BDFHJLCPRTXVZNYEIWGAKMUSQO", 0, 'V', 'W', false]
+    "3": ["BDFHJLCPRTXVZNYEIWGAKMUSQO", 0, 'B', 'D', false]
 }
 //       L, M, R
 order = [1, 2, 3]; // Chosen Rotors and order in machine, left to right
@@ -24,22 +24,27 @@ function rotor_encryptor(c_in, r_n, arr) {
         }
     }
 }
-// This function performs the encryption for all dials sequentially, subbing in the previous dial as the reference array after the first dial.
-//There is the possibility that it is not necassary to sub in reference arrays and leave them all as alphabet, but i think this is right.
+// This function performs the encryption for all dials sequentially
 function encrypt() {
     let c_in = input.value().charAt(input.value().length - 1);
     let x = rotor_encryptor(c_in, order[2], alph);
-    let y = rotor_encryptor(x, order[1], rotors[order[2]][0]);
-    return rotor_encryptor(y, order[0], rotors[order[1]][0]);
+    let y = rotor_encryptor(x, order[1], alph);
+    return rotor_encryptor(y, order[0], alph);
 }
 
 function rotate_dial(l) {
-    rotors[order[2]][1] = scroll_compute(rotors[order[2]][1], l);
-    // if (alph[rotors[order[2]][1]] == rotors[order[2]][3]) { // if rotor index = turnover end
-    //     if (rotors[order[2]][4]) { // check to see if it has been notched by turnover start
-    //         rotors[order[1]][1] = scroll_compute(rotors[order[1]][1], 1);
-    //
-    //     }
-    // }
-
+    // Right dial rotation (order index 2)
+    rotors[order[2]][1] = scroll_compute(rotors[order[2]][1], l, 2);
+    // if the notch letter is hit make notch boolean true
+    if (alph[rotors[order[2]][1]] == rotors[order[2]][2]) {
+        rotors[order[2]][4] = true;
+        // if notched true && dial has reached turnover end point then turn the next dial
+    } else if ((alph[rotors[order[2]][1]] == rotors[order[2]][3]) && (rotors[order[2]][4])) {
+        rotors[order[1]][1] = scroll_compute(rotors[order[1]][1], l, 1); // spins 2nd dial
+        if (alph[rotors[order[1]][1]] == rotors[order[1]][2]) {
+            rotors[order[1]][4] = true;
+        } else if ((alph[rotors[order[1]][1]] == rotors[order[1]][3]) && (rotors[order[1]][4])) {
+            rotors[order[0]][1] = scroll_compute(rotors[order[0]][1], l, 1); // spins third dial
+        }
+    }
 }

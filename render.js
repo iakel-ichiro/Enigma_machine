@@ -42,23 +42,30 @@ function user_input() {
 // Function to interact with dial indexing
 function mouseWheel(event) {
     if ((mouseX > dial1_x - 20) && (mouseX < dial1_x + 20) && (mouseY > dial_y - 40) && (mouseY < dial_y + 40)) {
-        rotors[order[0]][1] = scroll_compute(rotors[order[0]][1], event.delta);
+        rotors[order[0]][1] = scroll_compute(rotors[order[0]][1], event.delta, 0);
         update_i_pos();
     } else if ((mouseX > dial2_x - 20) && (mouseX < dial2_x + 20) && (mouseY > dial_y - 40) && (mouseY < dial_y + 40)) {
-        rotors[order[1]][1] = scroll_compute(rotors[order[1]][1], event.delta);
+        rotors[order[1]][1] = scroll_compute(rotors[order[1]][1], event.delta, 1);
         update_i_pos();
     } else if ((mouseX > dial3_x - 20) && (mouseX < dial3_x + 20) && (mouseY > dial_y - 40) && (mouseY < dial_y + 40)) {
-        rotors[order[2]][1] = scroll_compute(rotors[order[2]][1], event.delta);
+        rotors[order[2]][1] = scroll_compute(rotors[order[2]][1], event.delta, 2);
         update_i_pos();
     }
 }
 
-function scroll_compute(index, increment) {
+function scroll_compute(index, increment, r_n) {
     //move the square according to the vertical scroll amount
     if (abs(increment) == 100) {
         increment = increment / 100;
     }
     index += increment;
+    if (increment > 0){
+        rotors[order[r_n]][0] = rotors[order[r_n]][0].charAt(25) + rotors[order[r_n]][0];
+        rotors[order[r_n]][0] = rotors[order[r_n]][0].slice(0, -1);
+    } else if (increment < 0){
+        rotors[order[r_n]][0] =  rotors[order[r_n]][0] + rotors[order[r_n]][0].charAt(0);
+        rotors[order[r_n]][0] = rotors[order[r_n]][0].slice(1);
+    }
     // increments can be large due to length of input, how to convert them into the 0-25 rotation index.
     if (index > 25) {
         index = 0;
