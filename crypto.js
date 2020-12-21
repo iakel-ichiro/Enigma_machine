@@ -56,6 +56,8 @@ function rotor_encryptor(c_in, permutation) {
 // This function performs the encryption for all dials sequentially
 function encrypt() {
     let c_in = input.value().charAt(input.value().length - 1); // input new character
+    c_in = plug_switch(c_in);
+    print(c_in);
     // pass through the right hand rotor
     let x = rotor_encryptor(c_in, rotors[order[2]][0]);
     print(x);
@@ -75,8 +77,9 @@ function encrypt() {
     y = rotor_encryptor(x, rotors[order[1]][0]);
     print(y);
     // pass back through the right hand rotor
-    print(rotor_encryptor(y, rotors[order[2]][0]));
-    return rotor_encryptor(y, rotors[order[2]][0]);
+    let c_out = rotor_encryptor(y, rotors[order[2]][0]);
+    print(c_out);
+    return plug_switch(c_out);
 }
 
 function rotate_dial(l) {
@@ -94,4 +97,14 @@ function rotate_dial(l) {
             rotors[order[0]][1] = scroll_compute(rotors[order[0]][1], l, 1); // spins third dial
         }
     }
+}
+
+function plug_switch(char_in) {
+    let char_out = char_in;
+    for (let [key, value] of Object.entries(plugboard)) {
+        if (char_in.toUpperCase() == key) {
+            char_out = value;
+        }
+    }
+    return char_out;
 }
