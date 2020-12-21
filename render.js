@@ -25,9 +25,9 @@ function render_console() {
 
     text("Console: " + output, 25, 190); // type out encryption into Console:
     text("Rotor A: " + alph, 25, 220);
-    text("Rotor 3: " + rotors[3][0], 25, 240);
-    text("Rotor 2: " + rotors[2][0], 25, 260); // type out encryption into Console:
-    text("Rotor 1: " + rotors[1][0], 25, 280); // type out encryption into Console:
+    text("Rotor 3: " + rotors[order[2]][0], 25, 240);
+    text("Rotor 2: " + rotors[order[1]][0], 25, 260); // type out encryption into Console:
+    text("Rotor 1: " + rotors[order[0]][0], 25, 280); // type out encryption into Console:
     noFill();
     stroke(50);
     rect(width / 2, 240, width * 0.95, 150);

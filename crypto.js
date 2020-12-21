@@ -1,13 +1,28 @@
 var alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // Alphabet for initial encryption reference
 var prev_len = 0;
-// rotor dictionary contains three rotors:
-rotors = { // Three Rotors: Fast, med, slow. [scramble, rotation index, turnover start, end, notched?]
-    "1": ["EKMFLGDQVZNTOWYHXUSPAIBRCJ", 0, 'Q', 'R', false],
-    "2": ["AJDKSIRUXBLHWTMCQGZNPYFVOE", 0, 'E', 'F', false],
-    "3": ["BDFHJLCPRTXVZNYEIWGAKMUSQO", 0, 'B', 'D', false]
+// Reflector dictionary
+reflectors = {
+	"A":     "EJMZALYXVBWFCRQUONTSPIKHGD",
+    "B":     "YRUHQSLDPXNGOKMIEBFZCWVJAT",
+    "C":     "FVPJIAOYEDRZXWGCTKUQSBNMHL",
+    "Bthin": "ENKQAUYWJICOPBLMDXZVFTHRGS",
+    "Cthin": "RDOBJNTKVEHMLFCWZAXGYIPSUQ",
 }
-//       L, M, R
-order = [1, 2, 3]; // Chosen Rotors and order in machine, left to right
+// rotor dictionary contains three rotors:
+rotors = { //[scramble, rotation index, turnover start, end, notched?]
+    "I": ["EKMFLGDQVZNTOWYHXUSPAIBRCJ", 0, 'Y', 'Q', false],
+    "II": ["AJDKSIRUXBLHWTMCQGZNPYFVOE", 0, 'M', 'E', false],
+    "III": ["BDFHJLCPRTXVZNYEIWGAKMUSQO", 0, 'D', 'V', false],
+    "IV": ["ESOVPZJAYQUIRHXLNFTGKDCMWB", 0, 'R', 'J', false],
+    "V": ["VZBRGITYUPSDNHLXAWMJQOFECK", 0, 'H', 'Z', false],
+    "VI": ["JPGVOUMFYQBENHZRDKASXLICTW", 0, 'HU', 'ZM', false],
+    "VII": ["NZJHGRCXMYSWBOUFAIVLPEKQDT", 0, 'HU', 'ZM', false],
+    "VIII": ["FKQHTLXOCBJSPDZRAMEWNIUYGV", 0, 'HU', 'ZM', false],
+    "Beta": ["LEYJVCNIXWPBQMDRTAKZGFUHOS", 0, '', '', false],
+    "Gama": ["FSOKANUERHMBTIYCWLQPZXVGJD", 0, '', '', false],
+}
+//       L,     M,    R
+order = ["I", 'II', 'III']; // Chosen Rotors and order in machine, left to right
 // Encryption function
 function rotor_encryptor(c_in, r_n, arr) {
     permutation = rotors[r_n][0]; // Access the scramble from specified rotor
