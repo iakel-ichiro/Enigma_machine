@@ -11,7 +11,10 @@ function render() {
 function render_console() {
     textSize(16);
     textStyle(NORMAL);
-    let test = encrypt();
+    let test = "";
+    if (input.value() !== "") {
+        test = encrypt();
+    }
     text("Console: " + test, 25, 190);
     noFill();
     stroke(50);
@@ -37,11 +40,11 @@ function scroll_compute(index) {
     print(event.delta);
     //move the square according to the vertical scroll amount
     index += event.delta / 100;
-    if (index > 2) {
+    if (index > 25) {
         index = 0;
     }
     if (index < 0) {
-        index = 2;
+        index = 25;
     }
     return index;
 }
@@ -59,9 +62,13 @@ function render_dials() {
     noFill();
     rectMode(CENTER)
     rect(dial1_x, dial_y, 40, 80);
-    text(rotor_index[fast_rotor[1]], dial1_x - 10, dial_y + 10);
+    text(fast_rotor[1]+1, dial1_x - 17.5, dial_y + 10);
     rect(dial2_x, dial_y, 40, 75);
-    text(rotor_index[medium_rotor[1]], dial2_x - 10, dial_y + 10);
+    text(medium_rotor[1]+1, dial2_x - 17.5, dial_y + 10);
     rect(dial3_x, dial_y, 40, 75);
-    text(rotor_index[slow_rotor[1]], dial3_x - 10, dial_y + 10);
+    text(slow_rotor[1]+1, dial3_x - 17.5, dial_y + 10);
+    textSize(20);
+    text(rotor_order[0], dial3_x - 5, dial_y + 60);
+    text(rotor_order[1], dial2_x - 5, dial_y + 60);
+    text(rotor_order[2], dial1_x - 5, dial_y + 60);
 }
