@@ -26,12 +26,19 @@ function render_console() {
     text("Console: " + output, 25, 190); // type out encryption into Console:
     text("Rotor A: " + alph, 25, 220);
     text("Rotor 3: " + rotors[order[2]][0], 25, 240);
-    text("Rotor 2: " + rotors[order[1]][0], 25, 260); // type out encryption into Console:
-    text("Rotor 1: " + rotors[order[0]][0], 25, 280); // type out encryption into Console:
-    text("Refle A: " + reflectors[Object.keys(reflectors)[refl_n]], 25, 300); // type out encryption into Console:
-    text("Rotor 1: " + invert(rotors[order[0]][0]), 25, 320);
-    text("Rotor 2: " + invert(rotors[order[1]][0]), 25, 340); // type out encryption into Console:
-    text("Rotor 3: " + invert(rotors[order[2]][0]), 25, 360);
+    text("Rotor A: " + alph, 25, 260);
+    text("Rotor 2: " + rotors[order[1]][0], 25, 280);
+    text("Rotor A: " + alph, 25, 300);
+    text("Rotor 1: " + rotors[order[0]][0], 25, 320); // type out encryption into
+    text("Rotor A: " + alph, 25, 340);
+    text("Refle A: " + reflectors[Object.keys(reflectors)[refl_n]], 25, 360);
+    text("Rotor A: " + alph, 25, 380);
+    text("Rotor 1: " + invert(rotors[order[0]][0]), 25, 400);
+    text("Rotor A: " + alph, 25, 420);
+    text("Rotor 2: " + invert(rotors[order[1]][0]), 25, 440);
+    text("Rotor A: " + alph, 25, 460);
+    text("Rotor 3: " + invert(rotors[order[2]][0]), 25, 480);
+    text("Rotor A: " + alph, 25, 500);
     noFill();
     stroke(50);
     rect(width / 2, 350, width * 0.95, 300);
@@ -92,10 +99,10 @@ function scroll_compute(index, increment, r_n) {
         increment = increment / 100;
     }
     index += increment;
-    if (increment > 0) {
+    if (increment < 0) {
         rotors[order[r_n]][0] = rotors[order[r_n]][0].charAt(25) + rotors[order[r_n]][0];
         rotors[order[r_n]][0] = rotors[order[r_n]][0].slice(0, -1);
-    } else if (increment < 0) {
+    } else if (increment > 0) {
         rotors[order[r_n]][0] = rotors[order[r_n]][0] + rotors[order[r_n]][0].charAt(0);
         rotors[order[r_n]][0] = rotors[order[r_n]][0].slice(1);
     }

@@ -6,7 +6,7 @@ function setup() {
     createCanvas(720, 800);
     background(255);
     user_input(); // creates box to type, string = input.value();
-    // ring_pos(0,0,0);
+    ring_pos(0 , 0, 0);
 }
 
 function draw() {

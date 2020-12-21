@@ -25,14 +25,14 @@ reflectors = {
 refl_n = 0;
 // rotor dictionary contains three rotors:
 rotors = { //[scramble, rotation index, turnover start, end, notched?]
-    "0": ["EKMFLGDQVZNTOWYHXUSPAIBRCJ", 0, 'Y', 'Q', false, 'I'],
-    "1": ["AJDKSIRUXBLHWTMCQGZNPYFVOE", 0, 'M', 'E', false, 'II'],
-    "2": ["BDFHJLCPRTXVZNYEIWGAKMUSQO", 0, 'D', 'V', false, 'III'],
-    "3": ["ESOVPZJAYQUIRHXLNFTGKDCMWB", 0, 'R', 'J', false, 'IV'],
-    "4": ["VZBRGITYUPSDNHLXAWMJQOFECK", 0, 'H', 'Z', false, 'V'],
-    "5": ["JPGVOUMFYQBENHZRDKASXLICTW", 0, 'HU', 'ZM', false, 'VI'],
-    "6": ["NZJHGRCXMYSWBOUFAIVLPEKQDT", 0, 'HU', 'ZM', false, 'VII'],
-    "7": ["FKQHTLXOCBJSPDZRAMEWNIUYGV", 0, 'HU', 'ZM', false, 'VIII'],
+    "0": ["EKMFLGDQVZNTOWYHXUSPAIBRCJ", 0, 'Q', 'R', false, 'I'],
+    "1": ["AJDKSIRUXBLHWTMCQGZNPYFVOE", 0, 'E', 'F', false, 'II'],
+    "2": ["BDFHJLCPRTXVZNYEIWGAKMUSQO", 0, 'V', 'W', false, 'III'],
+    "3": ["ESOVPZJAYQUIRHXLNFTGKDCMWB", 0, 'J', 'K', false, 'IV'],
+    "4": ["VZBRGITYUPSDNHLXAWMJQOFECK", 0, 'Z', 'A', false, 'V'],
+    "5": ["JPGVOUMFYQBENHZRDKASXLICTW", 0, 'ZM', 'AN', false, 'VI'],
+    "6": ["NZJHGRCXMYSWBOUFAIVLPEKQDT", 0, 'ZM', 'AN', false, 'VII'],
+    "7": ["FKQHTLXOCBJSPDZRAMEWNIUYGV", 0, 'ZM', 'AN', false, 'VIII'],
     "8": ["LEYJVCNIXWPBQMDRTAKZGFUHOS", 0, '', '', false, 'Beta'],
     "9": ["FSOKANUERHMBTIYCWLQPZXVGJD", 0, '', '', false, 'Gamma']
 }
@@ -85,19 +85,14 @@ function encrypt() {
 function rotate_dial(l) {
     // Right dial rotation (order index 2)
     rotors[order[2]][1] = scroll_compute(rotors[order[2]][1], l, 2);
-    // if the notch letter is hit make notch boolean true
-    if (alph[rotors[order[2]][1]] == rotors[order[2]][2]) {
-        rotors[order[2]][4] = true;
-        // if notched true && dial has reached turnover end point then turn the next dial
-    } else if ((alph[rotors[order[2]][1]] == rotors[order[2]][3]) && (rotors[order[2]][4])) {
+    // if rotation lands on notched point dial has reached turnover end point then turn the next dial
+    if (alph[rotors[order[2]][1]] == rotors[order[2]][3]) {
         rotors[order[1]][1] = scroll_compute(rotors[order[1]][1], l, 1); // spins 2nd dial
-        if (alph[rotors[order[1]][1]] == rotors[order[1]][2]) {
-            rotors[order[1]][4] = true;
-        } else if ((alph[rotors[order[1]][1]] == rotors[order[1]][3]) && (rotors[order[1]][4])) {
-            rotors[order[0]][1] = scroll_compute(rotors[order[0]][1], l, 1); // spins third dial
-        }
+    } else if (alph[rotors[order[1]][1]] == rotors[order[1]][3]) {
+        rotors[order[0]][1] = scroll_compute(rotors[order[0]][1], l, 1); // spins third dial
     }
 }
+
 
 function plug_switch(char_in) {
     let char_out = char_in;
@@ -112,9 +107,15 @@ function plug_switch(char_in) {
 }
 
 function ring_pos(x, y, z) {
-    scroll_compute(rotors[order[0]][1], x, 0);
-    scroll_compute(rotors[order[1]][1], y, 1);
-    scroll_compute(rotors[order[2]][1], z, 2);
+    for (var i = 1; i < x; i++) {
+        scroll_compute(rotors[order[0]][1], -1, 0);
+    }
+    for (var k = 1; k < y; k++) {
+        scroll_compute(rotors[order[1]][1], -1, 1);
+    }
+    for (var m = 1; m < z; m++) {
+        scroll_compute(rotors[order[2]][1], -1, 2);
+    }
 }
 
 function invert(permutation) {
