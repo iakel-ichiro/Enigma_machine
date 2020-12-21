@@ -2,6 +2,7 @@
 var dial1_x;
 var dial2_x;
 var dial3_x;
+var output = "";
 
 function render() {
     render_dials();
@@ -12,17 +13,24 @@ function render() {
 function render_console() {
     textSize(16);
     textStyle(NORMAL);
-    let x = "";
-    rotate_dial()
-    if (input.value() !== "") { // only perform encryption if text is entered
-        x = encrypt();
+    let l = input.value().length - prev_len;
+    if (l > 0) {
+        rotate_dial(l)
+        output = concat(output, encrypt());
+    } else if (l < 0) {
+        rotate_dial(l)
+        output = output.slice(0, -1);
     }
+    prev_len = input.value().length;
 
-    text("Console: " + x, 25, 190); // type out encryption into Console:
-    text("Tests: " +  input.value().length, 25, 220); // type out encryption into Console:
+    text("Console: " + output, 25, 190); // type out encryption into Console:
+    text("Rotor A: " + alph, 25, 220);
+    text("Rotor 3: " + rotors[3][0], 25, 240);
+    text("Rotor 2: " + rotors[2][0], 25, 260); // type out encryption into Console:
+    text("Rotor 1: " + rotors[1][0], 25, 280); // type out encryption into Console:
     noFill();
     stroke(50);
-    rect(width / 2, 220, width * 0.95, 100);
+    rect(width / 2, 240, width * 0.95, 150);
 }
 
 // Function to create user input text box
@@ -47,7 +55,6 @@ function mouseWheel(event) {
 
 function scroll_compute(index, increment) {
     //move the square according to the vertical scroll amount
-    print(increment)
     if (abs(increment) == 100) {
         increment = increment / 100;
     }
