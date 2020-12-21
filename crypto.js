@@ -1,13 +1,12 @@
 var alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-rotor = ["EKMFLGDQVZNTOWYHXUSPAIBRCJ", "AJDKSIRUXBLHWTMCQGZNPYFVOE", "BDFHJLCPRTXVZNYEIWGAKMUSQO"]
-
-fast_rotor = ['A', 'B', 'C'];
-medium_rotor = ['A', 'B', 'C'];
-slow_rotor = ['A', 'B', 'C'];
+rotor_index = ['A', 'B', 'C'];
+fast_rotor = ["EKMFLGDQVZNTOWYHXUSPAIBRCJ", 0];
+medium_rotor = ["AJDKSIRUXBLHWTMCQGZNPYFVOE", 0];
+slow_rotor = ["BDFHJLCPRTXVZNYEIWGAKMUSQO", 0];
 
 function encrypt() {
     parse = input.value();
-    permutation = rotor[0];
+    permutation = fast_rotor[fast_rotor[1]];
     encryption = "";
     for (var i = 0; i < parse.length; i++) {
         if (parse.charAt(i) == ' ') {

@@ -1,7 +1,3 @@
-
-var i = 1;
-var j = 1;
-var k = 1;
 var dial1_x;
 var dial2_x;
 var dial3_x;
@@ -29,11 +25,11 @@ function user_input() {
 
 function mouseWheel(event) {
     if ((mouseX > dial1_x - 20) && (mouseX < dial1_x + 20) && (mouseY > dial_y - 40) && (mouseY < dial_y + 40)) {
-        i = scroll_compute(i)
+        fast_rotor[1] = scroll_compute(fast_rotor[1]);
     } else if ((mouseX > dial2_x - 20) && (mouseX < dial2_x + 20) && (mouseY > dial_y - 40) && (mouseY < dial_y + 40)) {
-        j = scroll_compute(j)
+        medium_rotor[1] = scroll_compute(medium_rotor[1]);
     } else if ((mouseX > dial3_x - 20) && (mouseX < dial3_x + 20) && (mouseY > dial_y - 40) && (mouseY < dial_y + 40)) {
-        k = scroll_compute(k)
+        slow_rotor[1] = scroll_compute(slow_rotor[1]);
     }
 }
 
@@ -63,9 +59,9 @@ function render_dials() {
     noFill();
     rectMode(CENTER)
     rect(dial1_x, dial_y, 40, 80);
-    text(fast_rotor[i], dial1_x - 10, dial_y + 10);
+    text(rotor_index[fast_rotor[1]], dial1_x - 10, dial_y + 10);
     rect(dial2_x, dial_y, 40, 75);
-    text(medium_rotor[j], dial2_x - 10, dial_y + 10);
+    text(rotor_index[medium_rotor[1]], dial2_x - 10, dial_y + 10);
     rect(dial3_x, dial_y, 40, 75);
-    text(slow_rotor[k], dial3_x - 10, dial_y + 10);
+    text(rotor_index[slow_rotor[1]], dial3_x - 10, dial_y + 10);
 }
