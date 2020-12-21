@@ -28,6 +28,7 @@ function render_console() {
     text("Rotor 3: " + rotors[order[2]][0], 25, 240);
     text("Rotor 2: " + rotors[order[1]][0], 25, 260); // type out encryption into Console:
     text("Rotor 1: " + rotors[order[0]][0], 25, 280); // type out encryption into Console:
+    text("Refle A: " + reflectors['A'], 25, 300); // type out encryption into Console:
     noFill();
     stroke(50);
     rect(width / 2, 240, width * 0.95, 150);
@@ -43,14 +44,19 @@ function user_input() {
 function mouseWheel(event) {
     if ((mouseX > dial1_x - 20) && (mouseX < dial1_x + 20) && (mouseY > dial_y - 40) && (mouseY < dial_y + 40)) {
         rotors[order[0]][1] = scroll_compute(rotors[order[0]][1], event.delta, 0);
-        update_i_pos();
     } else if ((mouseX > dial2_x - 20) && (mouseX < dial2_x + 20) && (mouseY > dial_y - 40) && (mouseY < dial_y + 40)) {
         rotors[order[1]][1] = scroll_compute(rotors[order[1]][1], event.delta, 1);
-        update_i_pos();
     } else if ((mouseX > dial3_x - 20) && (mouseX < dial3_x + 20) && (mouseY > dial_y - 40) && (mouseY < dial_y + 40)) {
         rotors[order[2]][1] = scroll_compute(rotors[order[2]][1], event.delta, 2);
-        update_i_pos();
+    } else if ((mouseX > 100 - 20) && (mouseX < 100 + 20) && (mouseY > dial_y - 20) && (mouseY < dial_y + 20)) {
+        refl_n += event.delta/100;
+        if (refl_n > 4) {
+            refl_n = 0;
+        } else if( refl_n < 0) {
+            refl_n = 4;
+        }
     }
+
 }
 
 function scroll_compute(index, increment, r_n) {
@@ -85,6 +91,7 @@ function render_dials() {
     textSize(32);
     fill(50);
     text('Enigma Machine', 10, 30);
+    //Rotor Index Dials
     stroke(50);
     strokeWeight(2);
     noFill();
@@ -95,9 +102,17 @@ function render_dials() {
     text(alph[rotors[order[1]][1]], dial2_x - 10, dial_y + 10);
     rect(dial3_x, dial_y, 40, 75);
     text(alph[rotors[order[2]][1]], dial3_x - 10, dial_y + 10);
+    //Rotor Order
     textSize(20);
     text(order[0], dial1_x - 5, dial_y + 60);
     text(order[1], dial2_x - 5, dial_y + 60);
     text(order[2], dial3_x - 5, dial_y + 60);
+    //Reflector Type Dial
+    stroke(50);
+    strokeWeight(2);
+    noFill();
+    ellipseMode(CENTER)
+    ellipse(100, dial_y, 40, 40);
+    text(Object.keys(reflectors)[refl_n], 100 - 6, dial_y + 7);
 
 }

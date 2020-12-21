@@ -1,13 +1,28 @@
 var alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // Alphabet for initial encryption reference
 var prev_len = 0;
+// Plugboard Dictionary:
+plugboard = {
+	"A": 'P',
+    "B": 'Q',
+    "C": 'R',
+    "D": 'S',
+    "E": 'T',
+    "F": 'U',
+    "G": 'V',
+    "H": 'Y',
+    "I": 'X',
+    "J": 'Y',
+    "K": 'Z',
+}
 // Reflector dictionary
 reflectors = {
 	"A":     "EJMZALYXVBWFCRQUONTSPIKHGD",
     "B":     "YRUHQSLDPXNGOKMIEBFZCWVJAT",
     "C":     "FVPJIAOYEDRZXWGCTKUQSBNMHL",
-    "Bthin": "ENKQAUYWJICOPBLMDXZVFTHRGS",
-    "Cthin": "RDOBJNTKVEHMLFCWZAXGYIPSUQ",
+    "B*": "ENKQAUYWJICOPBLMDXZVFTHRGS",
+    "C*": "RDOBJNTKVEHMLFCWZAXGYIPSUQ"
 }
+refl_n = 0;
 // rotor dictionary contains three rotors:
 rotors = { //[scramble, rotation index, turnover start, end, notched?]
     "I": ["EKMFLGDQVZNTOWYHXUSPAIBRCJ", 0, 'Y', 'Q', false],
@@ -19,20 +34,19 @@ rotors = { //[scramble, rotation index, turnover start, end, notched?]
     "VII": ["NZJHGRCXMYSWBOUFAIVLPEKQDT", 0, 'HU', 'ZM', false],
     "VIII": ["FKQHTLXOCBJSPDZRAMEWNIUYGV", 0, 'HU', 'ZM', false],
     "Beta": ["LEYJVCNIXWPBQMDRTAKZGFUHOS", 0, '', '', false],
-    "Gama": ["FSOKANUERHMBTIYCWLQPZXVGJD", 0, '', '', false],
+    "Gama": ["FSOKANUERHMBTIYCWLQPZXVGJD", 0, '', '', false]
 }
 //       L,     M,    R
 order = ["I", 'II', 'III']; // Chosen Rotors and order in machine, left to right
 // Encryption function
-function rotor_encryptor(c_in, r_n, arr) {
-    permutation = rotors[r_n][0]; // Access the scramble from specified rotor
+function rotor_encryptor(c_in, permutation) {
     print(permutation);
     let c_out;
     if (c_in == ' ') { // do not encrypt spaces leave them as is
         return c_in;
     } else {
-        for (var k = 0; k < arr.length; k++) { // cycle through the reference array either alph or the previous rotor's scramble
-            if (c_in.toUpperCase() == arr.charAt(k)) {
+        for (var k = 0; k < alph.length; k++) { // cycle through the reference array either alph or the previous rotor's scramble
+            if (c_in.toUpperCase() == alph.charAt(k)) {
                 // if input character == to letter in the array take the index number in that array and find its associate character from the current dials scramble and add to console.
                 return permutation.charAt(k);
             }
@@ -41,10 +55,28 @@ function rotor_encryptor(c_in, r_n, arr) {
 }
 // This function performs the encryption for all dials sequentially
 function encrypt() {
-    let c_in = input.value().charAt(input.value().length - 1);
-    let x = rotor_encryptor(c_in, order[2], alph);
-    let y = rotor_encryptor(x, order[1], alph);
-    return rotor_encryptor(y, order[0], alph);
+    let c_in = input.value().charAt(input.value().length - 1); // input new character
+    // pass through the right hand rotor
+    let x = rotor_encryptor(c_in, rotors[order[2]][0]);
+    print(x);
+    // pass middle rotor
+    let y = rotor_encryptor(x, rotors[order[1]][0]);
+    print(y);
+    // passes left rotor
+    x = rotor_encryptor(y, rotors[order[0]][0]);
+    print(x);
+    // passes through reflector and is sent back
+    y = rotor_encryptor(x, reflectors[Object.keys(reflectors)[refl_n]]);
+    print(y);
+    // passes back left rotor
+    x = rotor_encryptor(y, rotors[order[0]][0]);
+    print(x);
+    // pass back through middle rotor
+    y = rotor_encryptor(x, rotors[order[1]][0]);
+    print(y);
+    // pass back through the right hand rotor
+    print(rotor_encryptor(y, rotors[order[2]][0]));
+    return rotor_encryptor(y, rotors[order[2]][0]);
 }
 
 function rotate_dial(l) {
