@@ -29,9 +29,12 @@ function render_console() {
     text("Rotor 2: " + rotors[order[1]][0], 25, 260); // type out encryption into Console:
     text("Rotor 1: " + rotors[order[0]][0], 25, 280); // type out encryption into Console:
     text("Refle A: " + reflectors[Object.keys(reflectors)[refl_n]], 25, 300); // type out encryption into Console:
+    text("Rotor 1: " + invert(rotors[order[0]][0]), 25, 320);
+    text("Rotor 2: " + invert(rotors[order[1]][0]), 25, 340); // type out encryption into Console:
+    text("Rotor 3: " + invert(rotors[order[2]][0]), 25, 360);
     noFill();
     stroke(50);
-    rect(width / 2, 250, width * 0.95, 150);
+    rect(width / 2, 350, width * 0.95, 300);
 }
 
 // Function to create user input text box

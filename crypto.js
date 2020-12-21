@@ -2,12 +2,12 @@ var alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // Alphabet for initial encryption refe
 var prev_len = 0;
 // Plugboard Dictionary:
 plugboard = {
-    "A": 'M',
-    "F": 'I',
-    "N": 'V',
-    "P": 'S',
-    "T": 'U',
-    "W": 'Z',
+    // "A": 'M',
+    // "F": 'I',
+    // "N": 'V',
+    // "P": 'S',
+    // "T": 'U',
+    // "W": 'Z',
     // "G": 'V',
     // "H": 'Y',
     // "I": 'X',
@@ -71,13 +71,13 @@ function encrypt() {
     y = rotor_encryptor(x, reflectors[Object.keys(reflectors)[refl_n]]);
     print(y);
     // passes back left rotor
-    x = rotor_encryptor(y, rotors[order[0]][0]);
+    x = rotor_encryptor(y, invert(rotors[order[0]][0]));
     print(x);
     // pass back through middle rotor
-    y = rotor_encryptor(x, rotors[order[1]][0]);
+    y = rotor_encryptor(x, invert(rotors[order[1]][0]));
     print(y);
     // pass back through the right hand rotor
-    let c_out = rotor_encryptor(y, rotors[order[2]][0]);
+    let c_out = rotor_encryptor(y, invert(rotors[order[2]][0]));
     print(c_out);
     return plug_switch(c_out);
 }
@@ -115,4 +115,16 @@ function ring_pos(x, y, z) {
     scroll_compute(rotors[order[0]][1], x, 0);
     scroll_compute(rotors[order[1]][1], y, 1);
     scroll_compute(rotors[order[2]][1], z, 2);
+}
+
+function invert(permutation) {
+    var new_perm = "";
+    for (var i = 0; i < alph.length; i++) {
+        for (var k = 0; k < alph.length; k++) {
+            if (alph.charAt(i) == permutation.charAt(k)) {
+                new_perm = concat(new_perm, alph.charAt(k));
+            }
+        }
+    }
+    return new_perm;
 }
